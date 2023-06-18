@@ -1,0 +1,6 @@
+{
+  "files.associations": {
+    "*.ejs": "html",
+    "soal_2": "c"
+  }
+}
