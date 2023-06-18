@@ -1,0 +1,109 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct DataPasien {
+  struct DataPasien *prev;
+  char nama[100];
+  struct DataPasien *next;
+} pasien;
+
+
+pasien *head = NULL;
+
+pasien *pasienBaru() {
+  pasien *pasien_baru = (pasien*)malloc(sizeof(struct DataPasien));
+  return pasien_baru;
+}
+
+
+// tambahAntrian() => digunakan untuk menambahkan data pasien ke dalam antrian.
+void tambahAntrian(pasien *pasien_baru) {
+  printf("Masukkan nama pasien: ");
+  scanf("%s", &pasien_baru->nama);
+  printf("%s", pasien_baru->nama);
+  pasien *tail = head;
+
+  if(head == NULL) {
+    pasien_baru->prev = head;
+    pasien_baru->next = head;
+    head = pasien_baru;
+  } else {
+    while(tail->next != NULL) {
+      tail = tail->next;
+    }
+    tail->next = pasien_baru;
+    pasien_baru->prev = tail;
+    pasien_baru->next = NULL;
+  }
+}
+
+// hapusAntrian() => digunakan untuk menghapus data pasien dari dalam antrian.
+// pasien hapusAntrian(char nama_pasien[100]) {
+//   pasien *cari = head;
+
+//   while(cari != NULL && cari->nama != nama_pasien) {
+//     cari = cari->next;
+//   }
+
+//   if(cari != NULL) {
+//     printf("Nama pasien tidak ditemukan!\n");
+//   } else {
+//     cari->prev->next = cari->next;
+//     cari->next->prev = cari->prev;
+//     free(cari);
+//   }
+// }
+
+// cekAntrian() => digunakan untuk mengetahui banyak antrian di depannya.
+
+// listAntrian() => digunakan untuk mencetak semua data nama pasien di dalam antrian. 
+void listAntrian() {
+  pasien *curr = head;
+  int i = 0;
+  
+  printf("Daftar Pasien dalam Antrian: \n");
+  if(curr == NULL) {
+    printf("Data Kosong!");
+  } else {
+    while(curr != NULL) {
+      i++;
+      printf("[%d] Nama: %s\n", i, curr->nama);
+      curr = curr->next;
+    }
+  }
+}
+
+int main() {
+  printf("------ ANTRIAN RUMAH SAKIT ------\n");
+  pasien *pasien;
+  int pilihan = 0;
+
+  while(1) {
+    // system("cls");
+    listAntrian();
+    printf("\n\n");
+
+    printf("1. Tambah Antrian\n");
+    printf("2. Hapus Antrian\n");
+    printf("3. Cek Antrian\n");
+    printf("4. Exit\n");
+    printf("Pilihan: ");
+    scanf("%d", &pilihan);
+    scanf("%*[^\n]");
+
+    printf("\n");
+    switch(pilihan) {
+      case 1:
+        pasien = pasienBaru();
+        tambahAntrian(pasien);
+        break;
+      case 2:
+        // printf("Masukkan nama pasien: ");
+        // scanf("%s", &nama_pasien);
+        // hapusAntrian(nama_pasien);
+        break;
+      case 4:
+        exit(1);
+    }
+  }
+}
